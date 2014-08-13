@@ -36,7 +36,7 @@ admin {
 <% end %>
 };
 
-<% node['unreal']['config']['classes'].each do |class_name, class_config| %>
+<% node['unreal']['config']['class'].each do |class_name, class_config| %>
 class   <%= class_name %> {
 	<% class_config.each do |option, value| %>
 	<%= option %> <%= value %>;

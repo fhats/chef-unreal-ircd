@@ -55,7 +55,7 @@ default['unreal']['config']['bans']['versions'] = []
 
 default['unreal']['config']['cgiirc'] = []
 
-default['unreal']['config']['classes'] = {
+default['unreal']['config']['class'] = {
 	"clients" => {
 		"pingfreq"   => 90,
 		"maxclients" => 50,
@@ -100,7 +100,7 @@ default['unreal']['config']['files'] = {
 
 default['unreal']['config']['help'] = []
 
-default['unreal']['config']['link'] = []
+default['unreal']['config']['link'] = {}
 
 default['unreal']['config']['listen'] = [
 	{
