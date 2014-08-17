@@ -111,6 +111,7 @@ bash 'make unreal' do
   code "make && chmod a+rx unreal"
   user    node['unreal']['user']
   notifies :run, "bash[compile m_sanick]", :immediately
+  notifies :restart, "service[unreal-ircd]"
 end
 
 bash 'compile m_sanick' do
