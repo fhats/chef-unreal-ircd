@@ -43,6 +43,8 @@ build_base_path = Chef::Config['file_cache_path'].to_s || '/tmp'
 local_tarball_path = "#{build_base_path}/#{unreal_tarball}"
 unpacked_source = "#{node['unreal']['source']['install_location']}/#{::File.basename(local_tarball_path, ".tar.gz")}"
 
+node.default['unreal']['unreal_directory'] = unpacked_source
+
 directory node['unreal']['source']['install_location'] do
   mode "0755"
   owner node['unreal']['user']
@@ -123,5 +125,17 @@ link node['unreal']['source']['binary_destination'] do
   to "#{unpacked_source}/unreal"
 end
 
-node.default['unreal']['unreal_directory'] = unpacked_source
+# Here we fake having ircd.log and ircd.pid in the source directory since
+# the unreal management script naively looks for them.
+# We can't do anything about the log (since you might want to put that
+# elsewhere), but we do try to symlink ircd.pid to where the real pidfile
+# lives.
+
+file "#{unpacked_source}/ircd.log" do
+  action :touch
+end
+
+link "#{unpacked_source}/ircd.pid" do
+  to node['unreal']['pidfile']
+end
 

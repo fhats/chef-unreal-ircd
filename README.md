@@ -35,6 +35,10 @@ configuration of your IRCd:
   the IRCd as (defaults to `true`)?
 * `node['unreal']['user']` - The user to run the IRC daemon as. Will be created
   if `node['unreal']['create_user']` is set (defaults to `unreal`).
+* `node['unreal']['manage_service']` - Whether or not this cookbook should
+  attempt to manage the IRCd as a service (defaults to `true`). Use this if
+  you want to supply your own init script or manage the service with a
+  different init manager.
 * `node['unreal']['pidfile']` - Where to keep the pidfile for the IRCd
   (defaults to `/var/run/unreal-ircd/unreal.pid`).
 * `node['unreal']['tunefile']` - Where to keep the tunefile for the IRCd
@@ -267,6 +271,26 @@ an enumeration of the supported set values in `attributes/default.rb`.
         "global": "globop@beefheap.com"
       },
       "network-name": "BeefHeap IRC Network",
+    }
+
+### Supplying Additional Configuration Files
+
+The `node['unreal']['config']['additional_config_files']` setting provides a
+mechanism to let you include your own configuration files to be included by
+Unreal. To take advantage of this, specify a mapping of mappings to this
+attribute. The mapping should be keyed by the name of the file as it should be
+created on the filesystem, and the value of the mapping should be another
+mapping with the values `cookbook` and `source`. These values will be passed
+to the `cookbook_file` type to be included. Specifying this will drop files
+into a directory called `unrealircd.conf.d` in the Unreal install directory.
+
+#### Example
+
+    "additional_config_files": {
+      "opers.conf": {
+        "cookbook": "my-ircd-cookbook",
+        "source": "opers.conf"
+      }
     }
 
 ## Troubleshooting

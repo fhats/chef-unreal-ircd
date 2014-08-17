@@ -17,11 +17,11 @@
  */
 
 <% node['unreal']['config']['modules'].each do |irc_module| %>
-loadmodule "unreal/src/modules/<%= irc_module %>.so";
+loadmodule "src/modules/<%= irc_module %>.so";
 <% end %>
-<% if node['unreal']['enable_sanick'] %>loadmodule "unreal/src/modules/m_sanick.so";<% end %>
+<% if node['unreal']['enable_sanick'] %>loadmodule "src/modules/m_sanick.so";<% end %>
 
-include "unrealircd.conf.d/*"
+<% if node['unreal']['config']['additional_config_files'].length > 0 %>include "unrealircd.conf.d/*"<% end %>
 <% if node['unreal']['config']['use_default_spamfilter'] %>include "spamfilter.conf";<% end %>
 
 me {
@@ -268,11 +268,11 @@ help {<% node['unreal']['config']['help'].each do |help_line| %>
 	"<%= help_line %>";<% end %>
 };
 <% end %>
-
+<% if node['unreal']['config']['official-channels'].length > 0 %>
 official-channels {<% node['unreal']['config']['official-channels'].each do |channel, topic| %>
 	"<%= channel %>" { topic "<%= topic %>"; };<% end %>
 };
-
+<% end %>
 <% node['unreal']['config']['spamfilter'].each do |spamfilter| %>
 spamfilter {
 	regex <%= spamfilter['regex'] %>;
@@ -320,7 +320,6 @@ set {
 	ident {<% node['unreal']['config']['set']['ident'].each do |k,v| %>
 		<%= k %> <%= v %>;<% end %>
 	};
-	<%= optional_directive('kline-address', node['unreal']['config']['set'], 'kline-address', quoted=true) %>
 	<%= optional_directive('level-on-join', node['unreal']['config']['set'], 'level-on-join', quoted=true) %>
 	<%= optional_directive('maxbanlength', node['unreal']['config']['set'], 'maxbanlength', quoted=true) %>
 	<%= optional_directive('maxbans', node['unreal']['config']['set'], 'maxbans', quoted=true) %>
@@ -336,7 +335,11 @@ set {
 		<%= k %> <%= v %>;<% end %>
 	};
 	<%= optional_directive('oper-auto-join', node['unreal']['config']['set'], 'oper-auto-join', quoted=true) %>
+	<% if node['unreal']['config']['set']['oper-only-stats'].kind_of? String %>
+	oper-only-stats "<%= node['unreal']['config']['set']['oper-only-stats'] %>";
+	<% else %>
 	oper-only-stats {<% node['unreal']['config']['set']['oper-only-stats'].each do |stat| %><%=stat%>; <% end %> };
+	<% end %>
 	options {<% node['unreal']['config']['set']['options'].each do |k,v| %>
 		<%= k %> <%= v %>;<% end %>
 	};
@@ -347,12 +350,11 @@ set {
 	<%= optional_directive('restrict-extendedbans', node['unreal']['config']['set'], 'restrict-extendedbans', quoted=true) %>
 	<%= optional_directive('restrict-usermodes', node['unreal']['config']['set'], 'restrict-usermodes', quoted=true) %>
 	<%= optional_directive('sasl-server', node['unreal']['config']['set'], 'sasl-server', quoted=true) %>
-	<%= optional_directive('services-server', node['unreal']['config']['set'], 'services-server', quoted=true) %>
 	<%= optional_directive('silence-limit', node['unreal']['config']['set'], 'silence-limit', quoted=true) %>
 	<%= optional_directive('snomask-on-connect', node['unreal']['config']['set'], 'snomask-on-connect', quoted=true) %>
 	<%= optional_directive('snomask-on-oper', node['unreal']['config']['set'], 'snomask-on-oper', quoted=true) %>
 	spamfilter {<% node['unreal']['config']['set']['spamfilter'].each do |k,v| %>
-		<%= k %> <%= v %>;<% end %>
+		<%= k %> "<%= v %>";<% end %>
 	};
 	ssl {
 		<%= optional_directive('egd', node['unreal']['config']['set']['ssl'], 'egd', quoted=true) %>

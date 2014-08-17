@@ -9,6 +9,7 @@
 
 default['unreal']['create_user'] = true
 default['unreal']['enable_sanick'] = false
+default['unreal']['manage_service'] = true
 default['unreal']['pidfile'] = "/var/run/unreal-ircd/unreal.pid"
 default['unreal']['tunefile'] = "/var/run/unreal-ircd/unreal.tune"
 default['unreal']['user'] = "unreal"
