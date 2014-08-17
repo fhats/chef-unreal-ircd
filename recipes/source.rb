@@ -37,7 +37,7 @@ include_recipe "build-essential::default"
 unreal_version = node['unreal']['version'].to_s
 unreal_tarball = "Unreal#{unreal_version}.tar.gz"
 unreal_tarball_url = node['unreal']['source']['url'] ||
-                     "http://unrealircd.org/downloads/#{unreal_tarball}.tar.gz"
+                     "http://unrealircd.org/downloads/#{unreal_tarball}"
 
 build_base_path = Chef::Config['file_cache_path'].to_s || '/tmp'
 local_tarball_path = "#{build_base_path}/#{unreal_tarball}"
