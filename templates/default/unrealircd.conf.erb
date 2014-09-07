@@ -261,7 +261,7 @@ link <%= server %> {
 # If you just need to leverage one of the included alias sets for e.g. services
 # just use the alias_includes attribute.
 <% node['unreal']['config']['alias_includes'].each do |alias_include| %>
-include aliases<%= alias_include %>;<% end %>
+include aliases/<%= alias_include %>;<% end %>
 
 <% if node['unreal']['config']['help'].length > 0 %>
 help {<% node['unreal']['config']['help'].each do |help_line| %>

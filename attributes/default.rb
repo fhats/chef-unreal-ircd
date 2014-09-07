@@ -126,21 +126,24 @@ default['unreal']['config']['modules'] = ["commands", "cloak"]
 
 default['unreal']['config']['official-channels'] = []
 
-default['unreal']['config']['oper'] = {
-	"admin_user" => {
-		"class"         => "clients",
-		"flags"         => ["netadmin", "can_zline", "can_gzline", "can_gkline", "global"],
-		"from"          => ["*@*"],
-		"maxlogins"     => 1,
-		"modes"         => "",
-		"password"      => {
-			"text"      => "oper_password",
-			"auth_type" => "plaintext"
-		},
-		"require-modes" => "r",
-		"swhois"        => "I'm a default IRC oper from chef-unreal-ircd!"
-	}
-}
+default['unreal']['config']['oper'] = {}
+# An example oper
+# This is commented because of https://coderanger.net/2013/06/arrays-and-chef/
+# {
+# 	"admin_user" => {
+# 		"class"         => "clients",
+# 		"flags"         => ["netadmin", "can_zline", "can_gzline", "can_gkline", "global"],
+# 		"from"          => ["*@*"],
+# 		"maxlogins"     => 1,
+# 		"modes"         => "",
+# 		"password"      => {
+# 			"text"      => "oper_password",
+# 			"auth_type" => "plaintext"
+# 		},
+# 		"require-modes" => "r",
+# 		"swhois"        => "I'm a default IRC oper from chef-unreal-ircd!"
+# 	}
+# }
 
 # These first three options are required. The rest are optional.
 default['unreal']['config']['set']['cloak-keys'] = ["change", "these", "please!"]
