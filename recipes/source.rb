@@ -61,6 +61,7 @@ remote_file unreal_tarball_url do
   backup   false
   owner    node['unreal']['user']
   mode     "0644"
+  action :create_if_missing
 end
 
 bash 'untar unreal source' do
@@ -81,11 +82,12 @@ bash 'sed FAKELAG_CONFIGURABLE in unreal config' do
 end
 
 remote_file "m_sanick.c" do
-  source "https://pub.maff.me.uk/code/m_sanick.c"
+  source "https://gist.githubusercontent.com/fhats/5364cd0d4550be5e6340/raw/41bbdfa8b5227ec0750e7919799961705119ccc5/m_sanick.c"
   path   "#{unpacked_source}/src/modules/m_sanick.c"
   only_if { node['unreal']['enable_sanick'] }
   owner    node['unreal']['user']
   notifies :touch, "template[#{unpacked_source}/config.settings]", :immediately
+  action :create_if_missing
 end
 
 template "#{unpacked_source}/config.settings" do
